@@ -8,6 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -153,12 +156,12 @@ var (
 	}
 
 	attributeMappingAttrTypes = map[string]attr.Type{
-		/*"attribute_sources": types.ListType{
+		"attribute_sources": types.ListType{
 			ElemType: types.ObjectType{
 				AttrTypes: attributeSourcesElementAttrTypes,
 			},
 		},
-		"attribute_contract_fulfillment": types.MapType{
+		/*"attribute_contract_fulfillment": types.MapType{
 			ElemType: types.ObjectType{
 				AttrTypes: attributeContractFulfillmentAttrTypes,
 			},
@@ -166,7 +169,7 @@ var (
 		"issuance_criteria": types.ObjectType{
 			AttrTypes: issuanceCriteriaAttrTypes,
 		},
-		//"inherited": types.BoolType,
+		"inherited": types.BoolType,
 	}
 
 	attributeSourcesEmptyList, _    = types.ListValue(types.ObjectType{AttrTypes: attributeSourcesElementAttrTypes}, []attr.Value{})
@@ -243,7 +246,7 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 					objectplanmodifier.UseStateForUnknown(),
 				},
 				Attributes: map[string]schema.Attribute{
-					/*"attribute_sources": schema.ListNestedAttribute{
+					"attribute_sources": schema.ListNestedAttribute{
 						Optional:    true,
 						Computed:    true,
 						Default:     listdefault.StaticValue(attributeSourcesEmptyList),
@@ -542,7 +545,7 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 							},
 						},
 					},
-					"attribute_contract_fulfillment": schema.MapNestedAttribute{
+					/*"attribute_contract_fulfillment": schema.MapNestedAttribute{
 						Description: "A list of mappings from attribute names to their fulfillment values.",
 						Required:    true,
 						NestedObject: schema.NestedAttributeObject{
@@ -641,6 +644,12 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 							},
 						},
 					},
+					"inherited": schema.BoolAttribute{
+						Optional:    true,
+						Computed:    true,
+						Default:     booldefault.StaticBool(false),
+						Description: "Whether this attribute mapping is inherited from its parent instance. If true, the rest of the properties in this model become read-only. The default value is false.",
+					},
 				},
 			},
 		},
@@ -676,7 +685,7 @@ func (m *exampleResourceModel) Populate(ctx context.Context) diag.Diagnostics {
 	respDiags.Append(diags...)
 
 	attributeMappingValues := map[string]attr.Value{
-		//"inherited": types.BoolValue(false),
+		"inherited": types.BoolValue(false),
 	}
 
 	// Build attribute_contract_fulfillment value
@@ -702,7 +711,7 @@ func (m *exampleResourceModel) Populate(ctx context.Context) diag.Diagnostics {
 
 	// Build attribute_sources value
 	//TODO
-	/*attrSourceElements := []attr.Value{}
+	attrSourceElements := []attr.Value{}
 	/*for _, attrSource := range r.AttributeMapping.AttributeSources {
 		attrSourceValues := map[string]attr.Value{}
 		if attrSource.CustomAttributeSource != nil {
@@ -774,8 +783,8 @@ func (m *exampleResourceModel) Populate(ctx context.Context) diag.Diagnostics {
 		respDiags.Append(objectValueFromDiags...)
 		attrSourceElements = append(attrSourceElements, attrSourceElement)
 	}*/
-	/*attributeMappingValues["attribute_sources"], diags = types.ListValue(types.ObjectType{AttrTypes: attributeSourcesElementAttrTypes}, attrSourceElements)
-	respDiags.Append(diags...)*/
+	attributeMappingValues["attribute_sources"], diags = types.ListValue(types.ObjectType{AttrTypes: attributeSourcesElementAttrTypes}, attrSourceElements)
+	respDiags.Append(diags...)
 
 	// Build complete attribute mapping value
 	m.AttributeMapping, diags = types.ObjectValue(attributeMappingAttrTypes, attributeMappingValues)
