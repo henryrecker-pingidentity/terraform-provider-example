@@ -9,8 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -157,7 +155,7 @@ var (
 	}
 
 	attributeMappingAttrTypes = map[string]attr.Type{
-		"attribute_sources": types.ListType{
+		/*"attribute_sources": types.ListType{
 			ElemType: types.ObjectType{
 				AttrTypes: attributeSourcesElementAttrTypes,
 			},
@@ -166,7 +164,7 @@ var (
 			ElemType: types.ObjectType{
 				AttrTypes: attributeContractFulfillmentAttrTypes,
 			},
-		},
+		},*/
 		"issuance_criteria": types.ObjectType{
 			AttrTypes: issuanceCriteriaAttrTypes,
 		},
@@ -247,7 +245,7 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 					objectplanmodifier.UseStateForUnknown(),
 				},
 				Attributes: map[string]schema.Attribute{
-					"attribute_sources": schema.ListNestedAttribute{
+					/*"attribute_sources": schema.ListNestedAttribute{
 						Optional:    true,
 						Computed:    true,
 						Default:     listdefault.StaticValue(attributeSourcesEmptyList),
@@ -574,7 +572,7 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 								},
 							},
 						},
-					},
+					},*/
 					"issuance_criteria": schema.SingleNestedAttribute{
 						Description: "The issuance criteria that this transaction must meet before the corresponding attribute contract is fulfilled.",
 						Optional:    true,
@@ -689,13 +687,13 @@ func (m *exampleResourceModel) Populate(ctx context.Context) diag.Diagnostics {
 	}
 
 	// Build attribute_contract_fulfillment value
-	attributeContractFulfillmentElementAttrTypes := attributeMappingAttrTypes["attribute_contract_fulfillment"].(types.MapType).ElemType.(types.ObjectType).AttrTypes
+	/*attributeContractFulfillmentElementAttrTypes := attributeMappingAttrTypes["attribute_contract_fulfillment"].(types.MapType).ElemType.(types.ObjectType).AttrTypes
 	attributeMappingValues["attribute_contract_fulfillment"], _ =
 		types.MapValue(types.ObjectType{AttrTypes: attributeContractFulfillmentElementAttrTypes}, map[string]attr.Value{
 			"entryUUID":     AttributeContractFulfillmentValue("entryUUID"),
 			"policy.action": AttributeContractFulfillmentValue("policy.action"),
 			"username":      AttributeContractFulfillmentValue("username"),
-		})
+		})*/
 
 	// Build issuance_criteria value
 	conditional, diags := types.ListValue(types.ObjectType{AttrTypes: conditionalCriteriaAttrTypes}, []attr.Value{})
@@ -709,7 +707,7 @@ func (m *exampleResourceModel) Populate(ctx context.Context) diag.Diagnostics {
 
 	// Build attribute_sources value
 	//TODO
-	attrSourceElements := []attr.Value{}
+	/*attrSourceElements := []attr.Value{}
 	/*for _, attrSource := range r.AttributeMapping.AttributeSources {
 		attrSourceValues := map[string]attr.Value{}
 		if attrSource.CustomAttributeSource != nil {
@@ -781,8 +779,8 @@ func (m *exampleResourceModel) Populate(ctx context.Context) diag.Diagnostics {
 		respDiags.Append(objectValueFromDiags...)
 		attrSourceElements = append(attrSourceElements, attrSourceElement)
 	}*/
-	attributeMappingValues["attribute_sources"], diags = types.ListValue(types.ObjectType{AttrTypes: attributeSourcesElementAttrTypes}, attrSourceElements)
-	respDiags.Append(diags...)
+	/*attributeMappingValues["attribute_sources"], diags = types.ListValue(types.ObjectType{AttrTypes: attributeSourcesElementAttrTypes}, attrSourceElements)
+	respDiags.Append(diags...)*/
 
 	// Build complete attribute mapping value
 	m.AttributeMapping, diags = types.ObjectValue(attributeMappingAttrTypes, attributeMappingValues)

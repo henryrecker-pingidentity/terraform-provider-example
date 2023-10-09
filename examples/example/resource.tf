@@ -13,7 +13,8 @@ provider "example" {
 
 resource "example_example" "myExample" {
   string_val = "whatever"
-  attribute_mapping = {
+  // Always get a dirty plan when this attribute is commented out
+  /*attribute_mapping = {
     attribute_contract_fulfillment = {
       "entryUUID" = {
         source = {
@@ -38,5 +39,5 @@ resource "example_example" "myExample" {
     issuance_criteria = {
       conditional_criteria = []
     }
-  }
+  }*/
 }
