@@ -2,7 +2,7 @@ module github.com/henryrecker-pingidentity/terraform-provider-example
 
 go 1.21
 
-require github.com/hashicorp/terraform-plugin-framework v1.4.0
+require github.com/hashicorp/terraform-plugin-framework v1.4.1
 
 require (
 	github.com/fatih/color v1.15.0 // indirect
