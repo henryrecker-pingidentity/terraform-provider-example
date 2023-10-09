@@ -161,11 +161,11 @@ var (
 				AttrTypes: attributeSourcesElementAttrTypes,
 			},
 		},
-		/*"attribute_contract_fulfillment": types.MapType{
+		"attribute_contract_fulfillment": types.MapType{
 			ElemType: types.ObjectType{
 				AttrTypes: attributeContractFulfillmentAttrTypes,
 			},
-		},*/
+		},
 		"issuance_criteria": types.ObjectType{
 			AttrTypes: issuanceCriteriaAttrTypes,
 		},
@@ -545,18 +545,18 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 							},
 						},
 					},
-					/*"attribute_contract_fulfillment": schema.MapNestedAttribute{
+					"attribute_contract_fulfillment": schema.MapNestedAttribute{
 						Description: "A list of mappings from attribute names to their fulfillment values.",
-						Required:    true,
+						Computed:    true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
 								"source": schema.SingleNestedAttribute{
 									Description: "The attribute value source.",
-									Required:    true,
+									Computed:    true,
 									Attributes: map[string]schema.Attribute{
 										"type": schema.StringAttribute{
 											Description: "The source type of this key.",
-											Required:    true,
+											Computed:    true,
 											Validators: []validator.String{
 												stringvalidator.OneOf([]string{"TOKEN_EXCHANGE_PROCESSOR_POLICY", "ACCOUNT_LINK", "ADAPTER", "ASSERTION", "CONTEXT", "CUSTOM_DATA_STORE", "EXPRESSION", "JDBC_DATA_STORE", "LDAP_DATA_STORE", "PING_ONE_LDAP_GATEWAY_DATA_STORE", "MAPPED_ATTRIBUTES", "NO_MAPPING", "TEXT", "TOKEN", "REQUEST", "OAUTH_PERSISTENT_GRANT", "SUBJECT_TOKEN", "ACTOR_TOKEN", "PASSWORD_CREDENTIAL_VALIDATOR", "IDP_CONNECTION", "AUTHENTICATION_POLICY_CONTRACT", "CLAIMS", "LOCAL_IDENTITY_PROFILE", "EXTENDED_CLIENT_METADATA", "EXTENDED_PROPERTIES", "TRACKED_HTTP_PARAMS", "FRAGMENT", "INPUTS", "ATTRIBUTE_QUERY", "IDENTITY_STORE_USER", "IDENTITY_STORE_GROUP", "SCIM_USER", "SCIM_GROUP"}...),
 											},
@@ -569,11 +569,11 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 								},
 								"value": schema.StringAttribute{
 									Description: "The value for this attribute.",
-									Required:    true,
+									Computed:    true,
 								},
 							},
 						},
-					},*/
+					},
 					"issuance_criteria": schema.SingleNestedAttribute{
 						Description: "The issuance criteria that this transaction must meet before the corresponding attribute contract is fulfilled.",
 						Optional:    true,
@@ -689,13 +689,13 @@ func (m *exampleResourceModel) Populate(ctx context.Context) diag.Diagnostics {
 	}
 
 	// Build attribute_contract_fulfillment value
-	/*attributeContractFulfillmentElementAttrTypes := attributeMappingAttrTypes["attribute_contract_fulfillment"].(types.MapType).ElemType.(types.ObjectType).AttrTypes
+	attributeContractFulfillmentElementAttrTypes := attributeMappingAttrTypes["attribute_contract_fulfillment"].(types.MapType).ElemType.(types.ObjectType).AttrTypes
 	attributeMappingValues["attribute_contract_fulfillment"], _ =
 		types.MapValue(types.ObjectType{AttrTypes: attributeContractFulfillmentElementAttrTypes}, map[string]attr.Value{
 			"entryUUID":     AttributeContractFulfillmentValue("entryUUID"),
 			"policy.action": AttributeContractFulfillmentValue("policy.action"),
 			"username":      AttributeContractFulfillmentValue("username"),
-		})*/
+		})
 
 	// Build issuance_criteria value
 	conditional, diags := types.ListValue(types.ObjectType{AttrTypes: conditionalCriteriaAttrTypes}, []attr.Value{})
