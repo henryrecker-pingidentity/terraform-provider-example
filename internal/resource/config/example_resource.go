@@ -3,6 +3,7 @@ package config
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -13,6 +14,12 @@ import (
 // Ensure the implementation satisfies the expected interfaces.
 var (
 	_ resource.Resource = &exampleResource{}
+
+	fieldAttrTypes = map[string]attr.Type{
+		"name":      types.StringType,
+		"value":     types.StringType,
+		"inherited": types.BoolType,
+	}
 )
 
 // ExampleResource is a helper function to simplify the provider implementation.
@@ -27,6 +34,7 @@ type exampleResource struct {
 type exampleResourceModel struct {
 	Id        types.String `tfsdk:"id"`
 	StringVal types.String `tfsdk:"string_val"`
+	Fields    types.List   `tfsdk:"fields"`
 }
 
 // GetSchema defines the schema for the resource.
@@ -46,6 +54,30 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 				Description: "Optional string attribute",
 				Optional:    true,
 			},
+			"fields": schema.ListNestedAttribute{
+				Description: "List of configuration fields. This attribute will include any values set by default by PingFederate.",
+				Computed:    true,
+				Optional:    false,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"name": schema.StringAttribute{
+							Description: "The name of the configuration field.",
+							Required:    true,
+							Computed:    false,
+						},
+						"value": schema.StringAttribute{
+							Description: "The value for the configuration field. For encrypted or hashed fields, GETs will not return this attribute. To update an encrypted or hashed field, specify the new value in this attribute.",
+							Required:    true,
+							Computed:    false,
+						},
+						"inherited": schema.BoolAttribute{
+							Description: "Whether this field is inherited from its parent instance. If true, the value/encrypted value properties become read-only. The default value is false.",
+							Required:    true,
+							Computed:    false,
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -55,8 +87,23 @@ func (r *exampleResource) Metadata(_ context.Context, req resource.MetadataReque
 	resp.TypeName = req.ProviderTypeName + "_example"
 }
 
-func (m *exampleResourceModel) SetId() {
+func (m *exampleResourceModel) Populate() {
 	m.Id = types.StringValue("id")
+	fields := []attr.Value{
+		CreateField("field1", "val1", false),
+		CreateField("field2", "val2", true),
+		CreateField("field3", "val3", false),
+	}
+	m.Fields, _ = types.ListValue(types.ObjectType{AttrTypes: fieldAttrTypes}, fields)
+}
+
+func CreateField(name, value string, inherited bool) types.Object {
+	val, _ := types.ObjectValue(fieldAttrTypes, map[string]attr.Value{
+		"name":      types.StringValue(name),
+		"value":     types.StringValue(value),
+		"inherited": types.BoolValue(inherited),
+	})
+	return val
 }
 
 func (r *exampleResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -69,7 +116,8 @@ func (r *exampleResource) Create(ctx context.Context, req resource.CreateRequest
 	}
 
 	// Set computed id
-	plan.SetId()
+	plan.Populate()
+
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 }
@@ -84,7 +132,7 @@ func (r *exampleResource) Read(ctx context.Context, req resource.ReadRequest, re
 	}
 
 	// Set computed id
-	state.SetId()
+	state.Populate()
 	diags = resp.State.Set(ctx, state)
 	resp.Diagnostics.Append(diags...)
 }
@@ -100,7 +148,7 @@ func (r *exampleResource) Update(ctx context.Context, req resource.UpdateRequest
 	}
 
 	// Set computed id
-	plan.SetId()
+	plan.Populate()
 	diags = resp.State.Set(ctx, plan)
 	resp.Diagnostics.Append(diags...)
 }
