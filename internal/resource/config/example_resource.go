@@ -3,6 +3,7 @@ package config
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -10,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -138,7 +140,7 @@ var (
 	}
 
 	issuanceCriteriaAttrTypes = map[string]attr.Type{
-		/*"conditional_criteria": types.ListType{
+		"conditional_criteria": types.ListType{
 			ElemType: types.ObjectType{
 				AttrTypes: conditionalCriteriaAttrTypes,
 			},
@@ -147,7 +149,7 @@ var (
 			ElemType: types.ObjectType{
 				AttrTypes: expressionCriteriaAttrTypes,
 			},
-		},*/
+		},
 	}
 
 	attributeMappingAttrTypes = map[string]attr.Type{
@@ -574,7 +576,70 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 						Optional:    true,
 						Computed:    true,
 						//Default:     objectdefault.StaticValue(issuanceCriteriaEmptyObject),
-						Attributes: map[string]schema.Attribute{},
+						Attributes: map[string]schema.Attribute{
+							"conditional_criteria": schema.ListNestedAttribute{
+								Description: "An issuance criterion that checks a source attribute against a particular condition and the expected value. If the condition is true then this issuance criterion passes, otherwise the criterion fails.",
+								Optional:    true,
+								Computed:    true,
+								NestedObject: schema.NestedAttributeObject{
+									Attributes: map[string]schema.Attribute{
+										//TODO share these definitions
+										"source": schema.SingleNestedAttribute{
+											Description: "The attribute value source.",
+											Required:    true,
+											Attributes: map[string]schema.Attribute{
+												"type": schema.StringAttribute{
+													Description: "The source type of this key.",
+													Required:    true,
+													Validators: []validator.String{
+														stringvalidator.OneOf([]string{"TOKEN_EXCHANGE_PROCESSOR_POLICY", "ACCOUNT_LINK", "ADAPTER", "ASSERTION", "CONTEXT", "CUSTOM_DATA_STORE", "EXPRESSION", "JDBC_DATA_STORE", "LDAP_DATA_STORE", "PING_ONE_LDAP_GATEWAY_DATA_STORE", "MAPPED_ATTRIBUTES", "NO_MAPPING", "TEXT", "TOKEN", "REQUEST", "OAUTH_PERSISTENT_GRANT", "SUBJECT_TOKEN", "ACTOR_TOKEN", "PASSWORD_CREDENTIAL_VALIDATOR", "IDP_CONNECTION", "AUTHENTICATION_POLICY_CONTRACT", "CLAIMS", "LOCAL_IDENTITY_PROFILE", "EXTENDED_CLIENT_METADATA", "EXTENDED_PROPERTIES", "TRACKED_HTTP_PARAMS", "FRAGMENT", "INPUTS", "ATTRIBUTE_QUERY", "IDENTITY_STORE_USER", "IDENTITY_STORE_GROUP", "SCIM_USER", "SCIM_GROUP"}...),
+													},
+												},
+												"id": schema.StringAttribute{
+													Description: "The attribute source ID that refers to the attribute source that this key references. In some resources, the ID is optional and will be ignored. In these cases the ID should be omitted. If the source type is not an attribute source then the ID can be omitted.",
+													Optional:    true,
+												},
+											},
+										},
+										"attribute_name": schema.StringAttribute{
+											Description: "The name of the attribute to use in this issuance criterion.",
+											Required:    true,
+										},
+										"condition": schema.StringAttribute{
+											Description: "The condition that will be applied to the source attribute's value and the expected value.",
+											Required:    true,
+											Validators: []validator.String{
+												stringvalidator.OneOf([]string{"EQUALS", "EQUALS_CASE_INSENSITIVE", "EQUALS_DN", "NOT_EQUAL", "NOT_EQUAL_CASE_INSENSITIVE", "NOT_EQUAL_DN", "MULTIVALUE_CONTAINS", "MULTIVALUE_CONTAINS_CASE_INSENSITIVE", "MULTIVALUE_CONTAINS_DN", "MULTIVALUE_DOES_NOT_CONTAIN", "MULTIVALUE_DOES_NOT_CONTAIN_CASE_INSENSITIVE", "MULTIVALUE_DOES_NOT_CONTAIN_DN"}...),
+											},
+										},
+										"value": schema.StringAttribute{
+											Description: "The expected value of this issuance criterion.",
+											Required:    true,
+										},
+										"error_result": schema.StringAttribute{
+											Description: "The error result to return if this issuance criterion fails. This error result will show up in the PingFederate server logs.",
+											Optional:    true,
+										},
+									},
+								},
+							},
+							"expression_criteria": schema.ListNestedAttribute{
+								Description: "An issuance criterion that uses a Boolean return value from an OGNL expression to determine whether or not it passes.",
+								Optional:    true,
+								NestedObject: schema.NestedAttributeObject{
+									Attributes: map[string]schema.Attribute{
+										"expression": schema.StringAttribute{
+											Required:    true,
+											Description: "The OGNL expression to evaluate.",
+										},
+										"error_result": schema.StringAttribute{
+											Optional:    true,
+											Description: "The error result to return if this issuance criterion fails. This error result will show up in the PingFederate server logs.",
+										},
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -624,12 +689,12 @@ func (m *exampleResourceModel) Populate(ctx context.Context) diag.Diagnostics {
 		})*/
 
 	// Build issuance_criteria value
-	//conditional, diags := types.ListValue(types.ObjectType{AttrTypes: conditionalCriteriaAttrTypes}, []attr.Value{})
+	conditional, diags := types.ListValue(types.ObjectType{AttrTypes: conditionalCriteriaAttrTypes}, []attr.Value{})
 	respDiags.Append(diags...)
 	attributeMappingValues["issuance_criteria"], diags = types.ObjectValue(
 		issuanceCriteriaAttrTypes, map[string]attr.Value{
-			//"conditional_criteria": conditional,
-			//"expression_criteria":  types.ListNull(types.ObjectType{AttrTypes: expressionCriteriaAttrTypes}),
+			"conditional_criteria": conditional,
+			"expression_criteria":  types.ListNull(types.ObjectType{AttrTypes: expressionCriteriaAttrTypes}),
 		})
 	respDiags.Append(diags...)
 	// Setting issuance criteria to null below prevents the error - issuance criteria having a value leads to the error ocuurring.
