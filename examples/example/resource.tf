@@ -11,15 +11,18 @@ terraform {
 provider "example" {
 }
 
+resource "example_unexpected_plan_example" "myExamplePlan" {
+  
+}
 
-resource "example_set_nested_example" "myExample" {
+/*resource "example_set_nested_example" "myExample" {
   set = [
     {
       name = "test2"
       bool_two = true
     }
   ]
-}
+}*/
 
 /*resource "example_example" "myExample" {
   string_val = "whatever"
