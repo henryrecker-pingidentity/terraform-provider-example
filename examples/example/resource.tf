@@ -11,7 +11,17 @@ terraform {
 provider "example" {
 }
 
-resource "example_example" "myExample" {
+
+resource "example_set_nested_example" "myExample" {
+  set = [
+    {
+      name = "test2"
+      bool_two = true
+    }
+  ]
+}
+
+/*resource "example_example" "myExample" {
   string_val = "whatever"
   // Always get a dirty plan when this attribute is commented out
   /*attribute_mapping = {
@@ -40,4 +50,4 @@ resource "example_example" "myExample" {
       conditional_criteria = []
     }
   }*/
-}
+//}
