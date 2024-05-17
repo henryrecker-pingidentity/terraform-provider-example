@@ -11,6 +11,10 @@ terraform {
 provider "example" {
 }
 
-resource "example_example" "myExample" {
-    string_val = "whatever"
+import {
+  to = example_import_error.generated
+  id = "idVal"
 }
+
+# resource "example_import_error" "ex" {
+# }

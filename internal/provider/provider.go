@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/henryrecker-pingidentity/terraform-provider-example/internal/resource/config"
+	"github.com/henryrecker-pingidentity/terraform-provider-example/internal/resource/config/importerror"
 )
 
 // Ensure the implementation satisfies the expected interfacesß
@@ -52,5 +53,6 @@ func (p *exampleProvider) DataSources(_ context.Context) []func() datasource.Dat
 func (p *exampleProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		config.ExampleResource,
+		importerror.ImportErrorResource,
 	}
 }
