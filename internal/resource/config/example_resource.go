@@ -5,8 +5,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -34,17 +32,42 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 	resp.Schema = schema.Schema{
 		Description: "Example resource.",
 		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Description: "Computed id",
-				Computed:    true,
-				Optional:    false,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
+			"level_one": schema.SingleNestedAttribute{
+				Required: true,
+				Attributes: map[string]schema.Attribute{
+					"level_two": schema.SingleNestedAttribute{
+						Optional: true,
+						Attributes: map[string]schema.Attribute{
+							"level_three": schema.SingleNestedAttribute{
+								Optional: true,
+								Attributes: map[string]schema.Attribute{
+									"level_four_primary": schema.SingleNestedAttribute{
+										Attributes: map[string]schema.Attribute{
+											"level_four_primary_string": schema.StringAttribute{
+												Optional:    true,
+												Description: "Parent should be level_one.level_two.level_three.level_four_primary.",
+											},
+											"level_five": schema.SingleNestedAttribute{
+												Attributes: map[string]schema.Attribute{
+													"level_five_string": schema.StringAttribute{
+														Optional:    true,
+														Description: "Parent should be level_one.level_two.level_three.level_four_primary.level_five.",
+													},
+												},
+												Optional:    true,
+												Description: "Parent should be level_one.level_two.level_three.level_four_primary.",
+											},
+										},
+										Optional: true,
+									},
+									"level_four_secondary": schema.StringAttribute{
+										Optional: true,
+									},
+								},
+							},
+						},
+					},
 				},
-			},
-			"string_val": schema.StringAttribute{
-				Description: "Optional string attribute",
-				Optional:    true,
 			},
 		},
 	}
