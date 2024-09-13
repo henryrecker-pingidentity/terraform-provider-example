@@ -25,6 +25,11 @@ func SensitiveResource() resource.Resource {
 type sensitiveResource struct {
 }
 
+// Metadata returns the resource type name.
+func (r *sensitiveResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_sensitive"
+}
+
 // GetSchema defines the schema for the resource.
 func (r *sensitiveResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
@@ -78,11 +83,6 @@ func (r *sensitiveResource) Schema(ctx context.Context, req resource.SchemaReque
 	}
 }
 
-// Metadata returns the resource type name.
-func (r *sensitiveResource) Metadata(_ context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_sensitive"
-}
-
 func (r *sensitiveResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	resp.State.Raw = req.Plan.Raw
 }
@@ -91,11 +91,9 @@ func (r *sensitiveResource) Read(ctx context.Context, req resource.ReadRequest, 
 	resp.State.Raw = req.State.Raw
 }
 
-// Update updates the resource and sets the updated Terraform state on success.
 func (r *sensitiveResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	resp.State.Raw = req.Plan.Raw
 }
 
-// No backend so no logic needed
 func (r *sensitiveResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 }
