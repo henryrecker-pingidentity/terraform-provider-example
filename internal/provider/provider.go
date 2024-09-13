@@ -52,5 +52,6 @@ func (p *exampleProvider) DataSources(_ context.Context) []func() datasource.Dat
 func (p *exampleProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		config.ExampleResource,
+		config.SensitiveResource,
 	}
 }
