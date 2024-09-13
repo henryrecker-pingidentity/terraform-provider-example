@@ -12,9 +12,9 @@ provider "example" {
 }
 
 resource "example_sensitive" "sensitive" {
-  manager_id = "jsonWebTokenOATM"
-  name       = "JWT Access Token Manager"
-    configuration = {
+  # manager_id = "jsonWebTokenOATM"
+  # name       = "JWT Access Token Manager"
+  #   configuration = {
         tables = [
         {
             name = "Symmetric Keys"
@@ -151,5 +151,5 @@ resource "example_sensitive" "sensitive" {
         value = ""
       }
     ]*/
-    }
+    //}
 }
