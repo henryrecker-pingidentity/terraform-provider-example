@@ -11,6 +11,14 @@ terraform {
 provider "example" {
 }
 
-resource "example_example" "myExample" {
-    string_val = "whatever"
+import {
+  to = example_example.myExample
+  id = "str"
 }
+
+# resource "example_example" "myExample" {
+#     string_val = "str"
+#     map_val = {
+#       "Key with spaces": "value"
+#     }
+# }
