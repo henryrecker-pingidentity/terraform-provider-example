@@ -1,1 +1,1 @@
-# Example Terraform  provider
+# Example  Terraform  provider
