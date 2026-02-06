@@ -12,5 +12,5 @@ provider "example" {
 }
 
 resource "example_example" "myExample" {
-    string_val = "whatever"
+  number =  242.08120431461209
 }
