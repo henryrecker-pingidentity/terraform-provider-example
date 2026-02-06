@@ -2,7 +2,6 @@ package config
 
 import (
 	"context"
-	"fmt"
 	"math/big"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -29,8 +28,6 @@ type exampleResourceModel struct {
 	Computed types.String `tfsdk:"computed"`
 }
 
-// const problematicNumber = "242.08120431461208"
-
 // GetSchema defines the schema for the resource.
 func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
@@ -46,16 +43,18 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 	}
 }
 
-func parseNumber(str string) (types.Number, error) {
+func parseNumber(str string) types.Number {
 	apiRespBigFloat := new(big.Float)
 	updatedFloat, ok := apiRespBigFloat.SetString(str)
 	if !ok {
-		return types.NumberNull(), fmt.Errorf("unable to parse number: %s", str)
+		panic("unable to parse number from string " + str)
 	}
-	return types.NumberValue(updatedFloat), nil
+	return types.NumberValue(updatedFloat)
 }
 
 func planNumberToString(number types.Number) string {
+	// Hardcode to 14 to match example value for testing
+	// Simulate API returning exact same value from plan in JSON response
 	return number.ValueBigFloat().Text('f', 14)
 }
 
@@ -69,16 +68,8 @@ func (r *exampleResource) Create(ctx context.Context, req resource.CreateRequest
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
 
 	planNumStr := planNumberToString(plan.Number)
-	// fmt.Printf("Plan number as string: %s\n", planNumStr)
+	numberVal := parseNumber(planNumStr)
 
-	numberVal, err := parseNumber(planNumStr)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error parsing number",
-			err.Error(),
-		)
-		return
-	}
 	state := exampleResourceModel{
 		Number:   numberVal,
 		Computed: types.StringValue("computed value"),
@@ -91,35 +82,20 @@ func (r *exampleResource) Read(ctx context.Context, req resource.ReadRequest, re
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 
 	planNumStr := planNumberToString(data.Number)
+	data.Number = parseNumber(planNumStr)
 
-	apiRespBigFloat := new(big.Float)
-	updatedFloat, _ := apiRespBigFloat.SetString(planNumStr)
-	_, acc := updatedFloat.Float64()
-	fmt.Printf("Acc: %s\n", acc)
-
-	data.Number = types.NumberValue(updatedFloat)
 	data.Computed = types.StringValue("computed value")
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 // Update updates the resource and sets the updated Terraform state on success.
 func (r *exampleResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-
 	var plan exampleResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &plan)...)
 
 	planNumStr := planNumberToString(plan.Number)
-	// fmt.Printf("Plan number as string: %s\n", planNumStr)
+	numberVal := parseNumber(planNumStr)
 
-	numberVal, err := parseNumber(planNumStr)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Error parsing number",
-			err.Error(),
-		)
-		return
-	}
 	state := exampleResourceModel{
 		Number:   numberVal,
 		Computed: types.StringValue("computed value"),
