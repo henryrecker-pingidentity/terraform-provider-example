@@ -1,0 +1,127 @@
+2026-02-13T11:40:42.176-0600 [INFO]  Terraform version: 1.10.3
+2026-02-13T11:40:42.176-0600 [DEBUG] using github.com/hashicorp/go-tfe v1.70.0
+2026-02-13T11:40:42.176-0600 [DEBUG] using github.com/hashicorp/hcl/v2 v2.23.0
+2026-02-13T11:40:42.176-0600 [DEBUG] using github.com/hashicorp/terraform-svchost v0.1.1
+2026-02-13T11:40:42.176-0600 [DEBUG] using github.com/zclconf/go-cty v1.15.1-0.20241111215639-63279be090d7
+2026-02-13T11:40:42.176-0600 [INFO]  Go runtime version: go1.23.3
+2026-02-13T11:40:42.176-0600 [INFO]  CLI args: []string{"terraform", "plan"}
+2026-02-13T11:40:42.176-0600 [DEBUG] Attempting to open CLI config file: /Users/henryrecker/.terraformrc
+2026-02-13T11:40:42.177-0600 [INFO]  Loading CLI configuration from /Users/henryrecker/.terraformrc
+2026-02-13T11:40:42.177-0600 [DEBUG] Explicit provider installation configuration is set
+2026-02-13T11:40:42.177-0600 [INFO]  CLI command args: []string{"plan"}
+2026-02-13T11:40:42.178-0600 [DEBUG] Provider registry.terraform.io/pingidentity/pingfederate is overridden by dev_overrides
+2026-02-13T11:40:42.178-0600 [DEBUG] Provider registry.terraform.io/pingidentity/pingdirectory is overridden by dev_overrides
+2026-02-13T11:40:42.178-0600 [DEBUG] Provider registry.terraform.io/pingidentity/identitycloud is overridden by dev_overrides
+2026-02-13T11:40:42.178-0600 [DEBUG] Provider registry.terraform.io/pingidentity/pingone is overridden by dev_overrides
+2026-02-13T11:40:42.178-0600 [DEBUG] Provider registry.terraform.io/example/example is overridden by dev_overrides
+2026-02-13T11:40:42.178-0600 [DEBUG] Provider registry.terraform.io/pingidentity/pingdirectory is overridden to load from /Users/henryrecker/go/bin
+2026-02-13T11:40:42.178-0600 [DEBUG] Provider registry.terraform.io/pingidentity/identitycloud is overridden to load from /Users/henryrecker/go/bin
+2026-02-13T11:40:42.178-0600 [DEBUG] Provider registry.terraform.io/pingidentity/pingone is overridden to load from /Users/henryrecker/go/bin
+2026-02-13T11:40:42.178-0600 [DEBUG] Provider registry.terraform.io/example/example is overridden to load from /Users/henryrecker/go/bin
+2026-02-13T11:40:42.178-0600 [DEBUG] Provider registry.terraform.io/pingidentity/pingfederate is overridden to load from /Users/henryrecker/go/bin
+2026-02-13T11:40:42.178-0600 [DEBUG] checking for provisioner in "."
+2026-02-13T11:40:42.181-0600 [DEBUG] checking for provisioner in "/opt/homebrew/bin"
+2026-02-13T11:40:42.181-0600 [DEBUG] Provider registry.terraform.io/pingidentity/pingone is overridden by dev_overrides
+2026-02-13T11:40:42.181-0600 [DEBUG] Provider registry.terraform.io/example/example is overridden by dev_overrides
+2026-02-13T11:40:42.181-0600 [DEBUG] Provider registry.terraform.io/pingidentity/pingfederate is overridden by dev_overrides
+2026-02-13T11:40:42.181-0600 [DEBUG] Provider registry.terraform.io/pingidentity/pingdirectory is overridden by dev_overrides
+2026-02-13T11:40:42.181-0600 [DEBUG] Provider registry.terraform.io/pingidentity/identitycloud is overridden by dev_overrides
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mProvider development overrides are in effect[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe following provider development overrides are set in the CLI
+[33m│[0m [0mconfiguration:
+[33m│[0m [0m - pingidentity/pingone in /Users/henryrecker/go/bin
+[33m│[0m [0m - example/example in /Users/henryrecker/go/bin
+[33m│[0m [0m - pingidentity/pingfederate in /Users/henryrecker/go/bin
+[33m│[0m [0m - pingidentity/pingdirectory in /Users/henryrecker/go/bin
+[33m│[0m [0m - pingidentity/identitycloud in /Users/henryrecker/go/bin
+[33m│[0m [0m
+[33m│[0m [0mThe behavior may therefore not match any released version of the provider
+[33m│[0m [0mand applying changes may cause the state to become incompatible with
+[33m│[0m [0mpublished releases.
+[33m╵[0m[0m
+2026-02-13T11:40:42.181-0600 [INFO]  backend/local: starting Plan operation
+2026-02-13T11:40:42.182-0600 [DEBUG] Config.VerifyDependencySelections: skipping registry.terraform.io/example/example because it's overridden by a special configuration setting
+2026-02-13T11:40:42.182-0600 [DEBUG] created provider logger: level=debug
+2026-02-13T11:40:42.182-0600 [INFO]  provider: configuring client automatic mTLS
+2026-02-13T11:40:42.187-0600 [DEBUG] provider: starting plugin: path=/Users/henryrecker/go/bin/terraform-provider-example args=["/Users/henryrecker/go/bin/terraform-provider-example"]
+2026-02-13T11:40:42.188-0600 [DEBUG] provider: plugin started: path=/Users/henryrecker/go/bin/terraform-provider-example pid=28755
+2026-02-13T11:40:42.188-0600 [DEBUG] provider: waiting for RPC address: plugin=/Users/henryrecker/go/bin/terraform-provider-example
+2026-02-13T11:40:42.224-0600 [INFO]  provider.terraform-provider-example: configuring server automatic mTLS: timestamp=2026-02-13T11:40:42.223-0600
+2026-02-13T11:40:42.229-0600 [DEBUG] provider: using plugin: version=6
+2026-02-13T11:40:42.229-0600 [DEBUG] provider.terraform-provider-example: plugin address: address=/var/folders/z6/1v0v662x5_7fmwjpt1361p540000gp/T/plugin651841503 network=unix timestamp=2026-02-13T11:40:42.229-0600
+2026-02-13T11:40:42.234-0600 [DEBUG] No provider meta schema returned
+2026-02-13T11:40:42.235-0600 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-02-13T11:40:42.235-0600 [INFO]  provider: plugin process exited: plugin=/Users/henryrecker/go/bin/terraform-provider-example id=28755
+2026-02-13T11:40:42.241-0600 [DEBUG] provider: plugin exited
+2026-02-13T11:40:42.241-0600 [DEBUG] Building and walking validate graph
+2026-02-13T11:40:42.241-0600 [DEBUG] ProviderTransformer: "example_example.myExample" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/example/example"]
+2026-02-13T11:40:42.241-0600 [DEBUG] ReferenceTransformer: "example_example.myExample" references: []
+2026-02-13T11:40:42.241-0600 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/example/example\"]" references: []
+2026-02-13T11:40:42.241-0600 [DEBUG] Starting graph walk: walkValidate
+2026-02-13T11:40:42.241-0600 [DEBUG] created provider logger: level=debug
+2026-02-13T11:40:42.241-0600 [INFO]  provider: configuring client automatic mTLS
+2026-02-13T11:40:42.244-0600 [DEBUG] provider: starting plugin: path=/Users/henryrecker/go/bin/terraform-provider-example args=["/Users/henryrecker/go/bin/terraform-provider-example"]
+2026-02-13T11:40:42.245-0600 [DEBUG] provider: plugin started: path=/Users/henryrecker/go/bin/terraform-provider-example pid=28756
+2026-02-13T11:40:42.245-0600 [DEBUG] provider: waiting for RPC address: plugin=/Users/henryrecker/go/bin/terraform-provider-example
+2026-02-13T11:40:42.281-0600 [INFO]  provider.terraform-provider-example: configuring server automatic mTLS: timestamp=2026-02-13T11:40:42.281-0600
+2026-02-13T11:40:42.287-0600 [DEBUG] provider: using plugin: version=6
+2026-02-13T11:40:42.287-0600 [DEBUG] provider.terraform-provider-example: plugin address: address=/var/folders/z6/1v0v662x5_7fmwjpt1361p540000gp/T/plugin2501416728 network=unix timestamp=2026-02-13T11:40:42.287-0600
+2026-02-13T11:40:42.292-0600 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-02-13T11:40:42.293-0600 [INFO]  provider: plugin process exited: plugin=/Users/henryrecker/go/bin/terraform-provider-example id=28756
+2026-02-13T11:40:42.298-0600 [DEBUG] provider: plugin exited
+2026-02-13T11:40:42.298-0600 [INFO]  backend/local: plan calling Plan
+2026-02-13T11:40:42.298-0600 [DEBUG] Building and walking plan graph for NormalMode
+2026-02-13T11:40:42.299-0600 [DEBUG] ProviderTransformer: "example_example.myExample (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/example/example"]
+2026-02-13T11:40:42.299-0600 [DEBUG] ReferenceTransformer: "example_example.myExample (expand)" references: []
+2026-02-13T11:40:42.299-0600 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/example/example\"]" references: []
+2026-02-13T11:40:42.299-0600 [DEBUG] Starting graph walk: walkPlan
+2026-02-13T11:40:42.299-0600 [DEBUG] created provider logger: level=debug
+2026-02-13T11:40:42.299-0600 [INFO]  provider: configuring client automatic mTLS
+2026-02-13T11:40:42.302-0600 [DEBUG] provider: starting plugin: path=/Users/henryrecker/go/bin/terraform-provider-example args=["/Users/henryrecker/go/bin/terraform-provider-example"]
+2026-02-13T11:40:42.303-0600 [DEBUG] provider: plugin started: path=/Users/henryrecker/go/bin/terraform-provider-example pid=28757
+2026-02-13T11:40:42.303-0600 [DEBUG] provider: waiting for RPC address: plugin=/Users/henryrecker/go/bin/terraform-provider-example
+2026-02-13T11:40:42.339-0600 [INFO]  provider.terraform-provider-example: configuring server automatic mTLS: timestamp=2026-02-13T11:40:42.339-0600
+2026-02-13T11:40:42.345-0600 [DEBUG] provider: using plugin: version=6
+2026-02-13T11:40:42.345-0600 [DEBUG] provider.terraform-provider-example: plugin address: address=/var/folders/z6/1v0v662x5_7fmwjpt1361p540000gp/T/plugin1500174865 network=unix timestamp=2026-02-13T11:40:42.345-0600
+2026-02-13T11:40:42.350-0600 [DEBUG] Resource instance state not found for node "example_example.myExample", instance example_example.myExample
+2026-02-13T11:40:42.350-0600 [DEBUG] ReferenceTransformer: "example_example.myExample" references: []
+[0m[1mexample_example.myExample: Preparing import... [id=example-id-1234][0m
+[0m[1mexample_example.myExample: Refreshing state...[0m
+2026-02-13T11:40:42.351-0600 [DEBUG] provider.terraform-provider-example: Value switched to prior value due to semantic equality logic: @module=sdk.framework tf_req_id=1abd6175-a41c-f6d4-788e-6a1db6715c0f tf_rpc=ReadResource tf_attribute_path=computed tf_provider_addr=registry.terraform.io/example/example tf_resource_type=example_example @caller=/Users/henryrecker/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 timestamp=2026-02-13T11:40:42.351-0600
+2026-02-13T11:40:42.351-0600 [WARN]  Provider "registry.terraform.io/example/example" produced an unexpected new value for example_example.myExample during refresh.
+      - .float64: was null, but now cty.NumberFloatVal(242.1)
+2026-02-13T11:40:42.352-0600 [DEBUG] provider.terraform-provider-example: Detected value change between proposed new state and prior state: tf_attribute_path=float64 tf_provider_addr=registry.terraform.io/example/example tf_req_id=a40e2dcb-e616-3020-611a-792b65c374aa tf_rpc=PlanResourceChange @caller=/Users/henryrecker/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwserver/server_planresourcechange.go:241 @module=sdk.framework tf_resource_type=example_example timestamp=2026-02-13T11:40:42.352-0600
+2026-02-13T11:40:42.352-0600 [DEBUG] provider.terraform-provider-example: Marking Computed attributes with null configuration values as unknown (known after apply) in the plan to prevent potential Terraform errors: @module=sdk.framework tf_req_id=a40e2dcb-e616-3020-611a-792b65c374aa tf_resource_type=example_example tf_rpc=PlanResourceChange @caller=/Users/henryrecker/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwserver/server_planresourcechange.go:250 tf_provider_addr=registry.terraform.io/example/example timestamp=2026-02-13T11:40:42.352-0600
+2026-02-13T11:40:42.352-0600 [DEBUG] provider.terraform-provider-example: marking computed attribute that is null in the config as unknown: tf_rpc=PlanResourceChange @caller=/Users/henryrecker/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwserver/server_planresourcechange.go:538 @module=sdk.framework tf_req_id=a40e2dcb-e616-3020-611a-792b65c374aa tf_resource_type=example_example tf_attribute_path="AttributeName(\"computed\")" tf_provider_addr=registry.terraform.io/example/example timestamp=2026-02-13T11:40:42.352-0600
+2026-02-13T11:40:42.353-0600 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-02-13T11:40:42.354-0600 [INFO]  provider: plugin process exited: plugin=/Users/henryrecker/go/bin/terraform-provider-example id=28757
+2026-02-13T11:40:42.358-0600 [DEBUG] provider: plugin exited
+2026-02-13T11:40:42.358-0600 [DEBUG] building apply graph to check for errors
+2026-02-13T11:40:42.358-0600 [DEBUG] ProviderTransformer: "example_example.myExample (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/example/example"]
+2026-02-13T11:40:42.358-0600 [DEBUG] ProviderTransformer: "example_example.myExample" (*terraform.NodeApplyableResourceInstance) needs provider["registry.terraform.io/example/example"]
+2026-02-13T11:40:42.358-0600 [DEBUG] ReferenceTransformer: "example_example.myExample (expand)" references: []
+2026-02-13T11:40:42.358-0600 [DEBUG] ReferenceTransformer: "example_example.myExample" references: []
+2026-02-13T11:40:42.358-0600 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/example/example\"]" references: []
+2026-02-13T11:40:42.359-0600 [INFO]  backend/local: plan operation completed
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [33m~[0m update in-place[0m
+
+Terraform will perform the following actions:
+
+[1m  # example_example.myExample[0m will be updated in-place
+  # [0m(imported from "example-id-1234")
+[0m  [33m~[0m[0m resource "example_example" "myExample" {
+      [33m~[0m[0m computed = "computed value" -> (known after apply)
+        float64  = 242.1
+    }
+
+[1mPlan:[0m 1 to import, 0 to add, 1 to change, 0 to destroy.
+[0m[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
