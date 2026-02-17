@@ -8,7 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/henryrecker-pingidentity/terraform-provider-example/internal/modifier"
 )
 
 // Ensure the implementation satisfies the expected interfaces.
@@ -49,6 +51,9 @@ func (r *exampleResource) Schema(ctx context.Context, req resource.SchemaRequest
 		Attributes: map[string]schema.Attribute{
 			"float64": schema.Float64Attribute{
 				Required: true,
+				PlanModifiers: []planmodifier.Float64{
+					modifier.Float64SemanticEqual(),
+				},
 			},
 			"computed": schema.StringAttribute{
 				Computed: true,
